@@ -8,7 +8,7 @@ body {
 
 /* page actions container styling */
 .page-actions-container {
-  background-color: grey;
+  background-color: rgb(61, 136, 80);
   height: 3rem;
   display: flex;
   align-items: flex-end;
@@ -110,7 +110,7 @@ body {
 .grid-dummy-box {
   height: 2rem;
   width: 2rem;
-  background-color: grey;
+  background-color: rgb(200, 198, 198);
   position: sticky;
   top: 0;
   left: 0;
@@ -133,6 +133,7 @@ body {
   left: 2rem;
 }
 .address-col-cell {
+  font-weight: 500;
   height: 2rem;
   width: 2rem;
   display: flex;
@@ -141,6 +142,7 @@ body {
   border: 1px solid #dfe4ea;
 }
 .address-row-cell {
+  font-weight: 500;
   height: 2rem;
   width: 5rem;
   border: 1px solid #dfe4ea;
