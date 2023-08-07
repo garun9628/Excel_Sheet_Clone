@@ -28,12 +28,12 @@ function isGraphCyclic(graphMatrix) {
       if (!visited[i][j]) {
         let response = cycleDetection(graphMatrix, i, j, visited, dfsVisited);
         if (response) {
-          return true;
+          return [i, j];
         }
       }
     }
   }
-  return false;
+  return null;
 }
 
 function cycleDetection(graphMatrix, srcr, srcc, visited, dfsVisited) {
