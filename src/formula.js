@@ -43,12 +43,46 @@ formulaBar.addEventListener("keydown", (e) => {
     if (inputFormula !== cellProp.formula) {
       removeChildFromParent(cellProp.formula);
     }
+
+    addChildToGraphComponent(inputFormula, address);
+
+    let isCyclic = isGraphCyclic(graphMatrix);
+    if (isCyclic) {
+      alert("Your formula is cyclic");
+      removeChildFromGraphComponent(inputFormula, address);
+      return;
+    }
+
     // update UI and cellProp in sheetDB
     setCellUIAndCellProp(evaluatedValue, inputFormula, address);
     addChildToParent(inputFormula);
     updateChildren(address);
   }
 });
+
+function addChildToGraphComponent(formula, childAddress) {
+  const [crid, ccid] = decodeIndexValuesFromAddress(childAddress);
+  let encodedFormula = formula.split(" ");
+  for (let i = 0; i < encodedFormula.length; i++) {
+    let asciiValue = encodedFormula[i].charCodeAt(0);
+    if (asciiValue >= 65 && asciiValue <= 90) {
+      let [prid, pcid] = decodeIndexValuesFromAddress(encodedFormula[i]);
+      graphMatrix[prid][pcid].push([crid, ccid]);
+    }
+  }
+}
+
+function removeChildFromGraphComponent(formula, childAddress) {
+  const [crid, ccid] = decodeIndexValuesFromAddress(childAddress);
+  let encodedFormula = formula.split(" ");
+  for (let i = 0; i < encodedFormula.length; i++) {
+    let asciiValue = encodedFormula[i].charCodeAt(0);
+    if (asciiValue >= 65 && asciiValue <= 90) {
+      let [prid, pcid] = decodeIndexValuesFromAddress(encodedFormula[i]);
+      graphMatrix[prid][pcid].pop();
+    }
+  }
+}
 
 function addChildToParent(formula) {
   let childAddress = addressBar.value;
