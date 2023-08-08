@@ -81,7 +81,6 @@ function addChildToGraphComponent(formula, childAddress) {
     }
   }
 }
-
 function removeChildFromGraphComponent(formula, childAddress) {
   const [crid, ccid] = decodeIndexValuesFromAddress(childAddress);
   let encodedFormula = formula.split(" ");
