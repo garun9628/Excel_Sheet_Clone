@@ -6,7 +6,7 @@ function colorPromise() {
   });
 }
 
-async function cycleTracePath(graphMatrix, cycleResponse) {
+async function cycleTracePath(graphComponentMatrix, cycleResponse) {
   let [srcr, srcc] = cycleResponse;
   let visited = [];
   let dfsVisited = [];
@@ -23,7 +23,7 @@ async function cycleTracePath(graphMatrix, cycleResponse) {
   }
 
   let response = await cycleDetectionTracePath(
-    graphMatrix,
+    graphComponentMatrix,
     srcr,
     srcc,
     visited,
@@ -37,7 +37,7 @@ async function cycleTracePath(graphMatrix, cycleResponse) {
 
 // coloring cell for tracing path
 async function cycleDetectionTracePath(
-  graphMatrix,
+  graphComponentMatrix,
   srcr,
   srcc,
   visited,
@@ -52,14 +52,14 @@ async function cycleDetectionTracePath(
   await colorPromise();
   for (
     let children = 0;
-    children < graphMatrix[srcr][srcc].length;
+    children < graphComponentMatrix[srcr][srcc].length;
     children++
   ) {
-    let [nbrr, nbrc] = graphMatrix[srcr][srcc][children];
+    let [nbrr, nbrc] = graphComponentMatrix[srcr][srcc][children];
 
     if (!visited[nbrr][nbrc]) {
       let response = await cycleDetectionTracePath(
-        graphMatrix,
+        graphComponentMatrix,
         nbrr,
         nbrc,
         visited,
@@ -80,7 +80,6 @@ async function cycleDetectionTracePath(
       newCell.style.backgroundColor = "transparent";
       await colorPromise();
       cell.style.backgroundColor = "transparent";
-      await colorPromise();
       return Promise.resolve(true);
     }
   }

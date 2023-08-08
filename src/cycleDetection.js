@@ -1,14 +1,7 @@
-let graphMatrix = [];
+let allGraphComponentMatrix = [];
+let graphComponentMatrix = [];
 
-for (let i = 0; i < rows; i++) {
-  let row = [];
-  for (let j = 0; j < cols; j++) {
-    row.push([]);
-  }
-  graphMatrix.push(row);
-}
-
-function isGraphCyclic(graphMatrix) {
+function isGraphCyclic(graphComponentMatrix) {
   let visited = [];
   let dfsVisited = [];
 
@@ -26,7 +19,13 @@ function isGraphCyclic(graphMatrix) {
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
       if (!visited[i][j]) {
-        let response = cycleDetection(graphMatrix, i, j, visited, dfsVisited);
+        let response = cycleDetection(
+          graphComponentMatrix,
+          i,
+          j,
+          visited,
+          dfsVisited
+        );
         if (response) {
           return [i, j];
         }
@@ -36,20 +35,20 @@ function isGraphCyclic(graphMatrix) {
   return null;
 }
 
-function cycleDetection(graphMatrix, srcr, srcc, visited, dfsVisited) {
+function cycleDetection(graphComponentMatrix, srcr, srcc, visited, dfsVisited) {
   visited[srcr][srcc] = true;
   dfsVisited[srcr][srcc] = true;
 
   for (
     let children = 0;
-    children < graphMatrix[srcr][srcc].length;
+    children < graphComponentMatrix[srcr][srcc].length;
     children++
   ) {
-    let [nrid, ncid] = graphMatrix[srcr][srcc][children];
+    let [nrid, ncid] = graphComponentMatrix[srcr][srcc][children];
 
     if (!visited[nrid][ncid]) {
       let response = cycleDetection(
-        graphMatrix,
+        graphComponentMatrix,
         nrid,
         ncid,
         visited,

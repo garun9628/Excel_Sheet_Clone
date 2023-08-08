@@ -1,31 +1,15 @@
+let allSheetDB = [];
 let sheetDB = [];
+
+{
+  const addSheetButton = document.querySelector(".sheet-icon-container");
+  addSheetButton.click();
+}
+
 let activeColorProp = "#d1d8e0";
 let inactiveColorProp = "#ecf0f1";
 
-for (let i = 0; i < rows; i++) {
-  let sheetRow = [];
-  for (let j = 0; j < cols; j++) {
-    let cellProperties = {
-      // default values
-      bold: false,
-      italic: false,
-      underline: false,
-      alignment: "left",
-      fontFamily: "monospace",
-      fontSize: "14",
-      textColor: "#000000",
-      bgColor: "#000000",
-      val: "",
-      formula: "",
-      children: [],
-    };
-    sheetRow.push(cellProperties);
-  }
-  sheetDB.push(sheetRow);
-}
-
 // Selectors for cell properties
-
 let bold = document.querySelector(".bold");
 let italic = document.querySelector(".italic");
 let underline = document.querySelector(".underline");
@@ -39,7 +23,6 @@ let centerAlignment = alignment[1];
 let rightAlignment = alignment[2];
 
 //  Listeners for cell properties
-
 bold.addEventListener("click", (e) => {
   let address = addressBar.value;
   let [cell, cellProp] = getCellAndCellProp(address);

@@ -46,14 +46,14 @@ formulaBar.addEventListener("keydown", async (e) => {
 
     addChildToGraphComponent(inputFormula, address);
 
-    let cycleResponse = isGraphCyclic(graphMatrix);
+    let cycleResponse = isGraphCyclic(graphComponentMatrix);
     if (cycleResponse) {
       let response = confirm(
         "Your formula is cyclic. \n Do you want to Trace Path"
       );
       if (response) {
         while (response) {
-          await cycleTracePath(graphMatrix, cycleResponse);
+          await cycleTracePath(graphComponentMatrix, cycleResponse);
           response = confirm(
             "Your formula is cyclic.\nDo you want to Trace Path"
           );
@@ -77,7 +77,7 @@ function addChildToGraphComponent(formula, childAddress) {
     let asciiValue = encodedFormula[i].charCodeAt(0);
     if (asciiValue >= 65 && asciiValue <= 90) {
       let [prid, pcid] = decodeIndexValuesFromAddress(encodedFormula[i]);
-      graphMatrix[prid][pcid].push([crid, ccid]);
+      graphComponentMatrix[prid][pcid].push([crid, ccid]);
     }
   }
 }
@@ -89,7 +89,7 @@ function removeChildFromGraphComponent(formula, childAddress) {
     let asciiValue = encodedFormula[i].charCodeAt(0);
     if (asciiValue >= 65 && asciiValue <= 90) {
       let [prid, pcid] = decodeIndexValuesFromAddress(encodedFormula[i]);
-      graphMatrix[prid][pcid].pop();
+      graphComponentMatrix[prid][pcid].pop();
     }
   }
 }
