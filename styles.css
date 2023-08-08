@@ -39,11 +39,12 @@ body {
   border-radius: 2px;
   outline: none;
 }
-.font-family-props {
-  padding: 0.2rem;
+
+.font-family-prop {
+  padding: 0.1rem;
 }
-.font-size-props {
-  padding: 0.2rem;
+.font-size-prop {
+  padding: 0.1rem;
 }
 
 /* formula container styling */

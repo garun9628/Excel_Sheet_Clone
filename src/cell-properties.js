@@ -65,7 +65,7 @@ fontSize.addEventListener("change", (e) => {
 
   cellProp.fontSize = fontSize.value;
   cell.style.fontSize = fontSize.value + "px";
-  //   fontSize.value = cellProp.fontSize;
+  fontSize.value = cellProp.fontSize;
 });
 fontFamily.addEventListener("change", (e) => {
   let address = addressBar.value;
@@ -73,7 +73,7 @@ fontFamily.addEventListener("change", (e) => {
 
   cellProp.fontFamily = fontFamily.value;
   cell.style.fontFamily = fontFamily.value;
-  //   fontSize.value = cellProp.fontSize;
+  fontFamily.value = cellProp.fontFamily;
 });
 textColor.addEventListener("change", (e) => {
   let address = addressBar.value;
@@ -81,7 +81,7 @@ textColor.addEventListener("change", (e) => {
 
   cellProp.textColor = textColor.value;
   cell.style.color = textColor.value;
-  //   fontSize.value = cellProp.fontSize;
+  textColor.value = cellProp.textColor;
 });
 bgColor.addEventListener("change", (e) => {
   let address = addressBar.value;
@@ -89,7 +89,7 @@ bgColor.addEventListener("change", (e) => {
 
   cellProp.bgColor = bgColor.value;
   cell.style.backgroundColor = bgColor.value;
-  //   fontSize.value = cellProp.fontSize;
+  bgColor.value = cellProp.bgColor;
 });
 
 alignment.forEach((alignEle) => {
