@@ -34,12 +34,14 @@ body {
 .cell-props-actions-container > *:hover {
   cursor: pointer;
 }
+.cell-props-actions-container > .color-prop > input:hover {
+  cursor: pointer;
+}
 .cell-props-actions-container > select {
   border: none;
   border-radius: 2px;
   outline: none;
 }
-
 .font-family-prop {
   width: 10rem;
   padding: 0.1rem;

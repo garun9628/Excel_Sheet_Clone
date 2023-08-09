@@ -1,11 +1,9 @@
 let ctrlKey;
 
 document.addEventListener("keydown", (e) => {
-  //   console.log(e);
   ctrlKey = e.ctrlKey;
 });
 document.addEventListener("keyup", (e) => {
-  //   console.log(e);
   ctrlKey = e.ctrlKey;
 });
 
@@ -15,10 +13,6 @@ for (let i = 0; i < rows; i++) {
     handleSelectedCells(cell);
   }
 }
-
-const copyBtn = document.querySelector(".copy");
-const cutBtn = document.querySelector(".cut");
-const pasteBtn = document.querySelector(".paste");
 
 let rangeStorage = [];
 
@@ -36,7 +30,6 @@ function handleSelectedCells(cell) {
     let rid = Number(cell.getAttribute("rid"));
     let cid = Number(cell.getAttribute("cid"));
     rangeStorage.push([rid, cid]);
-    console.log(rangeStorage);
   });
 }
 
@@ -49,18 +42,27 @@ function defaultSelectedCellsUI() {
   }
 }
 
+const copyBtn = document.querySelector(".copy");
+const cutBtn = document.querySelector(".cut");
+const pasteBtn = document.querySelector(".paste");
+
 // COPY Functionality
 let copyData = [];
 
 copyBtn.addEventListener("click", (e) => {
-  let strow = rangeStorage[0][0];
-  let endrow = rangeStorage[1][0];
-  let stcol = rangeStorage[0][1];
-  let endcol = rangeStorage[1][1];
+  if (rangeStorage.length < 2) return;
+  copyData = [];
 
-  for (let i = strow; i <= endrow; i++) {
+  const [stRow, endRow, stCol, endCol] = [
+    rangeStorage[0][0],
+    rangeStorage[1][0],
+    rangeStorage[0][1],
+    rangeStorage[1][1],
+  ];
+
+  for (let i = stRow; i <= endRow; i++) {
     let copyRow = [];
-    for (let j = stcol; j <= endcol; j++) {
+    for (let j = stCol; j <= endCol; j++) {
       let cellProp = sheetDB[i][j];
       copyRow.push(cellProp);
     }
@@ -69,29 +71,75 @@ copyBtn.addEventListener("click", (e) => {
   defaultSelectedCellsUI();
 });
 
+// CUT Functionality
+cutBtn.addEventListener("click", (e) => {
+  if (rangeStorage.length < 2) return;
+  copyData = [];
+
+  const [stRow, endRow, stCol, endCol] = [
+    rangeStorage[0][0],
+    rangeStorage[1][0],
+    rangeStorage[0][1],
+    rangeStorage[1][1],
+  ];
+
+  // first copy the data
+  for (let i = stRow; i <= endRow; i++) {
+    let copyRow = [];
+    for (let j = stCol; j <= endCol; j++) {
+      let cellProp = sheetDB[i][j];
+      let clone = Object.assign({}, cellProp);
+      copyRow.push(clone);
+    }
+    copyData.push(copyRow);
+  }
+
+  for (let i = stRow; i <= endRow; i++) {
+    for (let j = stCol; j <= endCol; j++) {
+      let cell = document.querySelector(`.cell[rid="${i}"][cid="${j}"]`);
+      let cellProp = sheetDB[i][j];
+
+      cellProp.val = "";
+      cellProp.textColor = "";
+      cellProp.bold = false;
+      cellProp.italic = false;
+      cellProp.underline = false;
+      cellProp.fontSize = 14;
+      cellProp.fontFamily = "monospace";
+      cellProp.fontColor = "#000000";
+      cellProp.bgColor = "#000000";
+      cellProp.alignment = "left";
+
+      cell.click();
+    }
+  }
+  defaultSelectedCellsUI();
+});
+
 // PASTE Functionality
 pasteBtn.addEventListener("click", (e) => {
+  console.log(copyData);
+  if (rangeStorage.length < 2) return;
+
   let rowLen = Math.abs(rangeStorage[0][0] - rangeStorage[1][0]);
   let colLen = Math.abs(rangeStorage[0][1] - rangeStorage[1][1]);
 
   // target cell
   let address = addressBar.value;
-  let [strow, stcol] = decodeIndexValuesFromAddress(address);
+  let [stRow, stCol] = decodeIndexValuesFromAddress(address);
 
   // r refers copyData ki row
   // c refers copyData ki column
-  for (let i = strow, r = 0; i <= strow + rowLen; i++, r++) {
-    for (let j = stcol, c = 0; j <= stcol + colLen; j++, c++) {
+  for (let i = stRow, r = 0; i <= stRow + rowLen; i++, r++) {
+    for (let j = stCol, c = 0; j <= stCol + colLen; j++, c++) {
       let cell = document.querySelector(`.cell[rid="${i}"][cid="${j}"]`);
-      console.log(cell);
-      if (!cell) return;
+      if (!cell) continue;
 
       // update sheetDB
       let data = copyData[r][c];
       let cellProp = sheetDB[i][j];
-      //   console.log(data, cellProp);
+      console.log(cellProp);
 
-      console.log(cellProp.val);
       cellProp.val = data.val;
       cellProp.textColor = data.textColor;
       cellProp.formula = data.formula;
@@ -104,7 +152,7 @@ pasteBtn.addEventListener("click", (e) => {
       cellProp.bgColor = data.bgColor;
       cellProp.alignment = data.alignment;
 
-      // UI me change
+      // update UI. We already add "click" event listener to every cell in (cell-properties.js file) which is accessible in (cutCopyPaste.js), this "click" listener will set the values in UI.
       cell.click();
     }
   }
