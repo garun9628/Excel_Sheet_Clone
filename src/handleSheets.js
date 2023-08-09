@@ -16,6 +16,8 @@ addSheetButton.addEventListener("click", (e) => {
   }</div>`;
 
   sheetFolderContainer.appendChild(sheet);
+  sheet.scrollIntoView();
+
   createSheetDB();
   createGraphComponentMatrix();
   handleSheetActiveness(sheet);

@@ -15,8 +15,17 @@ body {
   padding-left: 1rem;
 }
 .page-actions {
-  margin: 0.5rem;
+  width: 4rem;
+  height: 2rem;
+  text-align: center;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.selected-page-action {
+  background-color: white;
+  color: rgb(61, 136, 80);
 }
 
 /* cell properties container styling */
